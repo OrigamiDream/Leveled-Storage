@@ -114,13 +114,15 @@ public abstract class LeveledStorageObject<T extends StorageObject> implements S
             this.configuration.divideFiles = input.readBoolean();
             this.layers = input.readInt();
             
-            this.divisionByFiles = new ArrayList<>(layers);
-            for(int i = 0; i < layers; i++) {
-                divisionByFiles.add(null);
-            }
-            
             if(configuration.divideFiles) {
                 for(int i = 0; i < layers; i++) {
+                    if(divisionByFiles.isEmpty()) {
+                        this.divisionByFiles = new ArrayList<>(layers);
+                        for(int j = 0; j < layers; j++) {
+                            divisionByFiles.add(null);
+                        }
+                    }
+                    
                     int level = input.readInt();
                     File file = new File(input.readUTF());
                     if(!file.exists()) {
@@ -161,25 +163,7 @@ public abstract class LeveledStorageObject<T extends StorageObject> implements S
         output.writeInt(layers);
         if(configuration.divideFiles) {
             for(int i = 0; i < layers; i++) {
-                File file;
-                if(divisionByFiles.contains(i)) {
-                    file = divisionByFiles.get(i);
-                } else {
-                    file = new File(directory, getStorageName() + "-" + i + ".ls");
-                }
-                output.writeInt(i);
-                output.writeUTF(file.getAbsolutePath());
-                
-                List<T> elements = this.elements.get(i);
-                
-                DataOutputStream divisionOutput = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
-                divisionOutput.writeInt(elements.size());
-                
-                for(int j = 0; j < elements.size(); j++) {
-                    writeEach(i, elements.get(j), divisionOutput);
-                }
-                divisionOutput.flush();
-                divisionOutput.close();
+                write(output, i);
             }
         } else {
             for(int i = 0; i < layers; i++) {
@@ -193,5 +177,38 @@ public abstract class LeveledStorageObject<T extends StorageObject> implements S
                 }
             }
         }
+    }
+    
+    /**
+     *
+     * 레이어별 저장을 위한 메소드입니다.
+     * 분할저장 시의 안정성을 위한것이며,
+     *
+     * 분할저장 설정이 켜져 있는 경우에만 적용됩니다.
+     *
+     * @param output 에 저장할 데이터를 담습니다.
+     * @param layer 저장할 레이어의 번호입니다.
+     * @throws IOException
+     */
+    public void write(DataOutputStream output, int layer) throws IOException {
+        File file;
+        if(divisionByFiles.contains(layer)) {
+            file = divisionByFiles.get(layer);
+        } else {
+            file = new File(directory, getStorageName() + "-" + layer + ".ls");
+        }
+        output.writeInt(layer);
+        output.writeUTF(file.getAbsolutePath());
+    
+        List<T> elements = this.elements.get(layer);
+        
+        DataOutputStream divisionOutput = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+        divisionOutput.writeInt(elements.size());
+    
+        for(int j = 0; j < elements.size(); j++) {
+            writeEach(layer, elements.get(j), divisionOutput);
+        }
+        divisionOutput.flush();
+        divisionOutput.close();
     }
 }

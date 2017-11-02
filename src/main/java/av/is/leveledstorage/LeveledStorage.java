@@ -122,6 +122,17 @@ public class LeveledStorage<T extends StorageObject> extends LeveledStorageObjec
         saveAll();
     }
     
+    /**
+     * 특정 레이어에 들어있는 데이터를 저장합니다.
+     *
+     * {@link #setDirectory(File)} 가 먼저 작동되어 경로가 지정되어있고 분할 저장이 활성화되어 있어야 저장이 가능합니다.
+     *
+     * @param layer
+     */
+    public void processSave(int layer) {
+        saveLayer(layer);
+    }
+    
     public void createStorages(int levels) {
         if(pool == null) {
             pool = new ThreadPool(configuration);
@@ -153,6 +164,14 @@ public class LeveledStorage<T extends StorageObject> extends LeveledStorageObjec
         pool.execute(configuration.asyncSave, this::save);
     }
     
+    private void saveLayer(int layer) {
+        if(!configuration.allowSaving || !configuration.divideFiles) {
+            return;
+        }
+        saving = true;
+        pool.execute(configuration.asyncSave, () -> save(layer));
+    }
+    
     private void save() {
         if(directory == null) {
             logger.warning("Directory cannot be null. Saving storage is rejected.");
@@ -161,6 +180,22 @@ public class LeveledStorage<T extends StorageObject> extends LeveledStorageObjec
         try {
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(new File(directory, getStorageName() + ".ls"))));
             write(dos);
+            dos.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        saving = false;
+        proceedDeque();
+    }
+    
+    private void save(int layer) {
+        if(directory == null) {
+            logger.warning("Directory cannot be null. Saving storage is rejected.");
+            return;
+        }
+        try {
+            DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(new File(directory, getStorageName() + ".ls"))));
+            write(dos, layer);
             dos.close();
         } catch(IOException e) {
             e.printStackTrace();

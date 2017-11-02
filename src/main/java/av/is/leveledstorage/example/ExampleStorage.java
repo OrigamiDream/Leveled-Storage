@@ -57,6 +57,12 @@ public class ExampleStorage {
         newStorage.processSave();
         
         
+        // processSave(layer) 를 이용하여 특정 레이어에 저장된 데이터를 파일로서 저장할 수 있습니다.
+        // asyncSave 설정에 따라서 비동기/동기 처리가 가능하며
+        // 분할저장 설정이 켜져 있어야 활용이 가능합니다.
+        newStorage.processSave(2); // 세 번째 레이어의 데이터를 저장합니다. (0부터 시작)
+        
+        
         
         
         // 저장된 스토리지를 불러옵니다.
