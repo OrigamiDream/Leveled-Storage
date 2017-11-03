@@ -30,7 +30,7 @@ public abstract class MapStorage<K extends StorageObject, V extends StorageObjec
     }
     
     /**
-     * @return {@link Map<K, V>} 는 두 개(K, V)의 제네릭만을 가지고 있기 때문에, 1을 반환합니다.
+     * @return {@link Map<K, V>} 는 두 개(K, V)의 제네릭만을 가지고 있기 때문에, 2를 반환합니다.
      */
     @Override
     public int generics() {
