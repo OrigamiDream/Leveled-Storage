@@ -3,5 +3,8 @@ Leveled Storage.iml
 .idea/*
 .target/*
 src/main/resources/
+
+target/classes/
 target/generated-sources/
 target/generated-test-sources/
+target/test-classes/
