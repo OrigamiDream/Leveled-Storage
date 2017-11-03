@@ -1,11 +1,9 @@
 package av.is.leveledstorage;
 
 import av.is.leveledstorage.pool.ThreadPool;
-import sun.reflect.ReflectionFactory;
+import av.is.leveledstorage.settings.Configuration;
 
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -34,7 +32,15 @@ public class LeveledStorage<T extends StorageObject> extends LeveledStorageObjec
     private final List<Storage> levels = new ArrayList<>();
     
     public LeveledStorage(Class<T> storageType, int levels) {
+        this(storageType, levels, null);
+    }
+    
+    public LeveledStorage(Class<T> storageType, int levels, Configuration configuration) {
         this(storageType);
+        
+        if(configuration != null) {
+            this.configuration = configuration;
+        }
         
         createStorages(levels);
         setupShutdown();
@@ -268,18 +274,7 @@ public class LeveledStorage<T extends StorageObject> extends LeveledStorageObjec
     
     @Override
     public T readEach(int level, DataInputStream input) throws IOException {
-        ReflectionFactory factory = ReflectionFactory.getReflectionFactory();
-        Optional<T> optional = Optional.empty();
-        try {
-            Constructor objDef = Object.class.getDeclaredConstructor();
-            Constructor constr = factory.newConstructorForSerialization(storageType, objDef);
-            optional = Optional.ofNullable(storageType.cast(constr.newInstance()));
-        } catch(NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        if(!optional.isPresent()) {
-            throw new IllegalArgumentException("Failed to load storage '" + storageType.getSimpleName() + ".ls' from " + directory.toPath());
-        }
+        Optional<T> optional = Storages.createEmptyObject(storageType);
         T storage = optional.get();
         storage.read(input);
         return storage;
@@ -299,7 +294,21 @@ public class LeveledStorage<T extends StorageObject> extends LeveledStorageObjec
      * @return 새로운 스토리지를 반환합니다.
      */
     public static <T extends StorageObject> LeveledStorage<T> createEmptyStorage(Class<T> classType, int levels) {
-        return new LeveledStorage<>(classType, levels);
+        return new LeveledStorage<T>(classType, levels);
+    }
+    
+    /**
+     * 아무것도 들어있지 않은 스토리지를 새로 만듭니다.
+     * 단, 기본적인 스토리지 설정을 해 놓은 상태로 스토리지를 만들 수 있습니다.
+     *
+     * @param classType 에 의해서 스토리지가 저장하는 오브젝트가 설정되며,
+     * @param levels 로 스토리지의 총 레벨을 결정합니다.
+     * @param configuration 로 기본 스토리지 설정을 하고 시작할 수 있습니다.
+     *
+     * @return 새로운 스토리지를 반환합니다.
+     */
+    public static <T extends StorageObject> LeveledStorage<T> createEmptyStorage(Class<T> classType, int levels, Configuration configuration) {
+        return new LeveledStorage<T>(classType, levels, configuration);
     }
     
     /**
@@ -340,6 +349,18 @@ public class LeveledStorage<T extends StorageObject> extends LeveledStorageObjec
         }
     }
     
+    @Override
+    public LeveledStorage<T> delegate() {
+        LeveledStorage<T> storage = LeveledStorage.createEmptyStorage(storageType, layers, configuration.delegate());
+        for(int i = 0; i < levels.size(); i++) {
+            Storage<T> layer = levels.get(i);
+            for(T obj : layer.getObjects()) {
+                storage.add(obj, i);
+            }
+        }
+        return storage;
+    }
+    
     public void debug() {
         for(int i = 0; i < levels.size(); i++) {
             Storage storage = levels.get(i);
@@ -348,5 +369,4 @@ public class LeveledStorage<T extends StorageObject> extends LeveledStorageObjec
             System.out.println();
         }
     }
-    
 }

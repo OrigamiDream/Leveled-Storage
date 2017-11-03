@@ -1,13 +1,12 @@
-package av.is.leveledstorage.tags;
+package av.is.leveledstorage.storages;
 
-import av.is.leveledstorage.ReturnableObject;
 import av.is.leveledstorage.StorageObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class StringStorage implements ReturnableObject<DataInputStream, DataOutputStream, String> {
+public class StringStorage implements StorageObject<DataInputStream, DataOutputStream, String> {
     
     private String value;
     
@@ -41,7 +40,7 @@ public class StringStorage implements ReturnableObject<DataInputStream, DataOutp
     }
     
     @Override
-    public ReturnableObject delegate() {
+    public StorageObject delegate() {
         return new StringStorage(value);
     }
 }

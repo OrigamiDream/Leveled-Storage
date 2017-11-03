@@ -1,28 +1,30 @@
-package av.is.leveledstorage.tags;
+package av.is.leveledstorage.storages;
 
-import av.is.leveledstorage.ReturnableObject;
 import av.is.leveledstorage.StorageObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ShortStorage implements ReturnableObject<DataInputStream, DataOutputStream, Short> {
+/**
+ * Created by Avis Network on 2017-11-01.
+ */
+public class ByteStorage implements StorageObject<DataInputStream, DataOutputStream, Byte> {
     
-    private short value;
+    private byte value;
     
-    public ShortStorage(short value) {
+    public ByteStorage(byte value) {
         this.value = value;
     }
     
     @Override
     public void read(DataInputStream input) throws IOException {
-        value = input.readShort();
+        value = input.readByte();
     }
     
     @Override
     public void write(DataOutputStream output) throws IOException {
-        output.writeShort(value);
+        output.writeByte(value);
     }
     
     @Override
@@ -31,17 +33,17 @@ public class ShortStorage implements ReturnableObject<DataInputStream, DataOutpu
     }
     
     @Override
-    public Short getValue() {
+    public Byte getValue() {
         return value;
     }
     
     @Override
-    public void setValue(Short value) {
+    public void setValue(Byte value) {
         this.value = value;
     }
     
     @Override
-    public ReturnableObject delegate() {
-        return new ShortStorage(value);
+    public StorageObject delegate() {
+        return new ByteStorage(value);
     }
 }

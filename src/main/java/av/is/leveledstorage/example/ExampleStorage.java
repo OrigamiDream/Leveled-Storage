@@ -2,7 +2,7 @@ package av.is.leveledstorage.example;
 
 import av.is.leveledstorage.LeveledStorage;
 import av.is.leveledstorage.StorageObject;
-import av.is.leveledstorage.tags.IntStorage;
+import av.is.leveledstorage.storages.IntStorage;
 
 import java.io.*;
 import java.net.Socket;
@@ -88,7 +88,7 @@ public class ExampleStorage {
     
     // 테스트 스토리지입니다.
     // 레이어에 저장되는 객체들의 정보를 정의합니다.
-    public static class TestStorage implements StorageObject<DataInputStream, DataOutputStream> {
+    public static class TestStorage implements StorageObject<DataInputStream, DataOutputStream, Object> {
         
         private int id;
         private String name;
@@ -110,6 +110,27 @@ public class ExampleStorage {
         public void write(DataOutputStream output) throws IOException {
             output.writeInt(id);
             output.writeUTF(name);
+        }
+        
+        // 결과적으로 반환될, 통일된 하나의 클래스를 반환합니다.
+        // 해당 예제에서는 사용되지 않습니다
+        @Override
+        public Object getValue() {
+            // Note: UNUSED
+            return null;
+        }
+        
+        // 결과적으로 반환되는, 통일된 하나의 클래스를 받아옵니다.
+        // 해당 예제에서는 사용되지 않습니다.
+        @Override
+        public void setValue(Object value) {
+            // Note: UNUSED
+        }
+        
+        // 스스로를 복사하여 반환합니다.
+        @Override
+        public StorageObject delegate() {
+            return new TestStorage(id, name);
         }
     }
 }

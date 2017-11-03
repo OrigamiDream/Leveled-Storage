@@ -1,28 +1,27 @@
-package av.is.leveledstorage.tags;
+package av.is.leveledstorage.storages;
 
-import av.is.leveledstorage.ReturnableObject;
 import av.is.leveledstorage.StorageObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class LongStorage implements ReturnableObject<DataInputStream, DataOutputStream, Long> {
+public class ShortStorage implements StorageObject<DataInputStream, DataOutputStream, Short> {
     
-    private long value;
+    private short value;
     
-    public LongStorage(long value) {
+    public ShortStorage(short value) {
         this.value = value;
     }
     
     @Override
     public void read(DataInputStream input) throws IOException {
-        value = input.readLong();
+        value = input.readShort();
     }
     
     @Override
     public void write(DataOutputStream output) throws IOException {
-        output.writeLong(value);
+        output.writeShort(value);
     }
     
     @Override
@@ -31,17 +30,17 @@ public class LongStorage implements ReturnableObject<DataInputStream, DataOutput
     }
     
     @Override
-    public Long getValue() {
+    public Short getValue() {
         return value;
     }
     
     @Override
-    public void setValue(Long value) {
+    public void setValue(Short value) {
         this.value = value;
     }
     
     @Override
-    public ReturnableObject delegate() {
-        return new LongStorage(value);
+    public StorageObject delegate() {
+        return new ShortStorage(value);
     }
 }

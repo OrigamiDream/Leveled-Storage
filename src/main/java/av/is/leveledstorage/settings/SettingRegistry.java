@@ -1,10 +1,9 @@
 package av.is.leveledstorage.settings;
 
-import av.is.leveledstorage.ReturnableObject;
 import av.is.leveledstorage.StorageObject;
-import av.is.leveledstorage.tags.BooleanStorage;
-import av.is.leveledstorage.tags.IntStorage;
-import av.is.leveledstorage.tags.LongStorage;
+import av.is.leveledstorage.storages.BooleanStorage;
+import av.is.leveledstorage.storages.IntStorage;
+import av.is.leveledstorage.storages.LongStorage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +17,7 @@ import java.util.Map;
  */
 public class SettingRegistry {
     
-    public static final Map<String, ReturnableObject> SETTINGS = new HashMap<>();
+    public static final Map<String, StorageObject> SETTINGS = new HashMap<>();
     static {
         SETTINGS.put("allowSaving", new BooleanStorage(true));
         SETTINGS.put("allowTransition", new BooleanStorage(true));

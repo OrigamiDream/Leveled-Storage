@@ -9,6 +9,12 @@ import java.io.OutputStream;
  * 이 객체가 스토리지에 저장되며,
  * 인터페이스를 상속하여 저장할 데이터를 설정할 수 있습니다.
  */
-public interface StorageObject<I extends InputStream, O extends OutputStream> extends Readable<I>, Writable<O> {
+public interface StorageObject<I extends InputStream, O extends OutputStream, V> extends Readable<I>, Writable<O> {
+    
+    V getValue();
+    
+    void setValue(V value);
+    
+    StorageObject delegate();
 
 }

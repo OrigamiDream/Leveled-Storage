@@ -1,28 +1,27 @@
-package av.is.leveledstorage.tags;
+package av.is.leveledstorage.storages;
 
-import av.is.leveledstorage.ReturnableObject;
 import av.is.leveledstorage.StorageObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class FloatStorage implements ReturnableObject<DataInputStream, DataOutputStream, Float> {
+public class DoubleStorage implements StorageObject<DataInputStream, DataOutputStream, Double> {
     
-    private float value;
+    private double value;
     
-    public FloatStorage(float value) {
+    public DoubleStorage(double value) {
         this.value = value;
     }
     
     @Override
     public void read(DataInputStream input) throws IOException {
-        value = input.readFloat();
+        value = input.readDouble();
     }
     
     @Override
     public void write(DataOutputStream output) throws IOException {
-        output.writeFloat(value);
+        output.writeDouble(value);
     }
     
     @Override
@@ -31,17 +30,17 @@ public class FloatStorage implements ReturnableObject<DataInputStream, DataOutpu
     }
     
     @Override
-    public Float getValue() {
+    public Double getValue() {
         return value;
     }
     
     @Override
-    public void setValue(Float value) {
+    public void setValue(Double value) {
         this.value = value;
     }
     
     @Override
-    public ReturnableObject delegate() {
-        return new FloatStorage(value);
+    public StorageObject delegate() {
+        return new DoubleStorage(value);
     }
 }

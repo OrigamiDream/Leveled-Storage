@@ -1,6 +1,6 @@
 package av.is.leveledstorage;
 
-import av.is.leveledstorage.tags.IntStorage;
+import av.is.leveledstorage.storages.IntStorage;
 
 /**
  * Created by Avis Network on 2017-11-01.

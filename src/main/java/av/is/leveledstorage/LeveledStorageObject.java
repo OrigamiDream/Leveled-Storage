@@ -16,13 +16,13 @@ import java.util.logging.Logger;
  *
  * {@link #read(DataInputStream)} 와 {@link #readEach(int, DataInputStream)}도 마찬가지입니다.
 */
-public abstract class LeveledStorageObject<T extends StorageObject> implements StorageObject<DataInputStream, DataOutputStream> {
+public abstract class LeveledStorageObject<T extends StorageObject> implements EmptyStorageObject<DataInputStream, DataOutputStream> {
     
     protected int layers;
     protected final List<List<T>> elements = new ArrayList<>();
     protected List<File> divisionByFiles = new ArrayList<>();
     
-    protected final Configuration configuration;
+    protected Configuration configuration;
     protected ThreadPool pool;
     protected File directory;
     

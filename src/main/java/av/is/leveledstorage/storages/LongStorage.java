@@ -1,28 +1,27 @@
-package av.is.leveledstorage.tags;
+package av.is.leveledstorage.storages;
 
-import av.is.leveledstorage.ReturnableObject;
 import av.is.leveledstorage.StorageObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class IntStorage implements ReturnableObject<DataInputStream, DataOutputStream, Integer> {
+public class LongStorage implements StorageObject<DataInputStream, DataOutputStream, Long> {
     
-    private int value;
+    private long value;
     
-    public IntStorage(int value) {
+    public LongStorage(long value) {
         this.value = value;
     }
     
     @Override
     public void read(DataInputStream input) throws IOException {
-        value = input.readInt();
+        value = input.readLong();
     }
     
     @Override
     public void write(DataOutputStream output) throws IOException {
-        output.writeInt(value);
+        output.writeLong(value);
     }
     
     @Override
@@ -31,17 +30,17 @@ public class IntStorage implements ReturnableObject<DataInputStream, DataOutputS
     }
     
     @Override
-    public Integer getValue() {
+    public Long getValue() {
         return value;
     }
     
     @Override
-    public void setValue(Integer value) {
+    public void setValue(Long value) {
         this.value = value;
     }
     
     @Override
-    public ReturnableObject delegate() {
-        return new IntStorage(value);
+    public StorageObject delegate() {
+        return new LongStorage(value);
     }
 }

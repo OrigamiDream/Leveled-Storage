@@ -1,28 +1,30 @@
-package av.is.leveledstorage.tags;
+package av.is.leveledstorage.storages;
 
-import av.is.leveledstorage.ReturnableObject;
 import av.is.leveledstorage.StorageObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class CharStorage implements ReturnableObject<DataInputStream, DataOutputStream, Character> {
+/**
+ * Created by Avis Network on 2017-11-01.
+ */
+public class BooleanStorage implements StorageObject<DataInputStream, DataOutputStream, Boolean> {
     
-    private char value;
+    private boolean value;
     
-    public CharStorage(char value) {
+    public BooleanStorage(boolean value) {
         this.value = value;
     }
     
     @Override
     public void read(DataInputStream input) throws IOException {
-        value = input.readChar();
+        value = input.readBoolean();
     }
     
     @Override
     public void write(DataOutputStream output) throws IOException {
-        output.writeChar(value);
+        output.writeBoolean(value);
     }
     
     @Override
@@ -31,17 +33,17 @@ public class CharStorage implements ReturnableObject<DataInputStream, DataOutput
     }
     
     @Override
-    public Character getValue() {
+    public Boolean getValue() {
         return value;
     }
     
     @Override
-    public void setValue(Character value) {
+    public void setValue(Boolean value) {
         this.value = value;
     }
     
     @Override
-    public ReturnableObject delegate() {
-        return new CharStorage(value);
+    public StorageObject delegate() {
+        return new BooleanStorage(value);
     }
 }

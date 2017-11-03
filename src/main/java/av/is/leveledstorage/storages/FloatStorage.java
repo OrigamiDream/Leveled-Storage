@@ -1,30 +1,27 @@
-package av.is.leveledstorage.tags;
+package av.is.leveledstorage.storages;
 
-import av.is.leveledstorage.ReturnableObject;
+import av.is.leveledstorage.StorageObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-/**
- * Created by Avis Network on 2017-11-01.
- */
-public class BooleanStorage implements ReturnableObject<DataInputStream, DataOutputStream, Boolean> {
+public class FloatStorage implements StorageObject<DataInputStream, DataOutputStream, Float> {
     
-    private boolean value;
+    private float value;
     
-    public BooleanStorage(boolean value) {
+    public FloatStorage(float value) {
         this.value = value;
     }
     
     @Override
     public void read(DataInputStream input) throws IOException {
-        value = input.readBoolean();
+        value = input.readFloat();
     }
     
     @Override
     public void write(DataOutputStream output) throws IOException {
-        output.writeBoolean(value);
+        output.writeFloat(value);
     }
     
     @Override
@@ -33,17 +30,17 @@ public class BooleanStorage implements ReturnableObject<DataInputStream, DataOut
     }
     
     @Override
-    public Boolean getValue() {
+    public Float getValue() {
         return value;
     }
     
     @Override
-    public void setValue(Boolean value) {
+    public void setValue(Float value) {
         this.value = value;
     }
     
     @Override
-    public ReturnableObject delegate() {
-        return new BooleanStorage(value);
+    public StorageObject delegate() {
+        return new FloatStorage(value);
     }
 }

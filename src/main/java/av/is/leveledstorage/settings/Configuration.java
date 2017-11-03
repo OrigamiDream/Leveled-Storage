@@ -1,7 +1,7 @@
 package av.is.leveledstorage.settings;
 
+import av.is.leveledstorage.EmptyStorageObject;
 import av.is.leveledstorage.Readable;
-import av.is.leveledstorage.ReturnableObject;
 import av.is.leveledstorage.StorageObject;
 import av.is.leveledstorage.Writable;
 
@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
  * 그렇기에, 설정 파일에 읽어지는 것 외의 목적으로 필드를 추가하는것은 비권장됩니다.
  *
  */
-public class Configuration implements Readable<DataInputStream>, Writable<DataOutputStream> {
+public class Configuration implements EmptyStorageObject<DataInputStream, DataOutputStream> {
     
     /**
      * 데이터를 파일로 저장하는 기능을 활성화합니다.
@@ -77,8 +77,8 @@ public class Configuration implements Readable<DataInputStream>, Writable<DataOu
                 try {
                     Field field = Configuration.class.getDeclaredField(setting);
                     field.setAccessible(true);
-    
-                    ReturnableObject storageObject = SettingRegistry.SETTINGS.get(setting).delegate();
+                    
+                    StorageObject storageObject = SettingRegistry.SETTINGS.get(setting).delegate();
                     storageObject.read(input);
                     field.set(this, storageObject.getValue());
                 } catch(NoSuchFieldException | IllegalAccessException e) {
@@ -99,12 +99,31 @@ public class Configuration implements Readable<DataInputStream>, Writable<DataOu
                 }
                 output.writeUTF(setting);
                 
-                ReturnableObject storageObject = SettingRegistry.SETTINGS.get(setting).delegate();
+                StorageObject storageObject = SettingRegistry.SETTINGS.get(setting).delegate();
                 storageObject.setValue(field.get(this));
                 storageObject.write(output);
             } catch(IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
+    }
+    
+    @Override
+    public Configuration delegate() {
+        Configuration configuration = new Configuration();
+        for(Field field : Configuration.class.getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                String setting = field.getName();
+                if(!SettingRegistry.SETTINGS.containsKey(setting)) {
+                    continue;
+                }
+                Object original = field.get(this);
+                field.set(configuration, original);
+            } catch(IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return configuration;
     }
 }

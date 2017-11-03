@@ -1,30 +1,27 @@
-package av.is.leveledstorage.tags;
+package av.is.leveledstorage.storages;
 
-import av.is.leveledstorage.ReturnableObject;
+import av.is.leveledstorage.StorageObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-/**
- * Created by Avis Network on 2017-11-01.
- */
-public class ByteStorage implements ReturnableObject<DataInputStream, DataOutputStream, Byte> {
+public class IntStorage implements StorageObject<DataInputStream, DataOutputStream, Integer> {
     
-    private byte value;
+    private int value;
     
-    public ByteStorage(byte value) {
+    public IntStorage(int value) {
         this.value = value;
     }
     
     @Override
     public void read(DataInputStream input) throws IOException {
-        value = input.readByte();
+        value = input.readInt();
     }
     
     @Override
     public void write(DataOutputStream output) throws IOException {
-        output.writeByte(value);
+        output.writeInt(value);
     }
     
     @Override
@@ -33,17 +30,17 @@ public class ByteStorage implements ReturnableObject<DataInputStream, DataOutput
     }
     
     @Override
-    public Byte getValue() {
+    public Integer getValue() {
         return value;
     }
     
     @Override
-    public void setValue(Byte value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
     
     @Override
-    public ReturnableObject delegate() {
-        return new ByteStorage(value);
+    public StorageObject delegate() {
+        return new IntStorage(value);
     }
 }
