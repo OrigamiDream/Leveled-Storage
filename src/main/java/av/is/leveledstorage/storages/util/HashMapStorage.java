@@ -33,7 +33,7 @@ public class HashMapStorage<K extends StorageObject, V extends StorageObject> ex
     }
     
     @Override
-    public void writeGeneric(DataOutputStream output, StorageObject... generic) throws IOException {
+    public void writeGeneric(DataOutputStream output) throws IOException {
         output.writeInt(getValue().size());
         for(Map.Entry<K, V> entry : getValue().entrySet()) {
             K key = (K) entry.getKey().delegate();

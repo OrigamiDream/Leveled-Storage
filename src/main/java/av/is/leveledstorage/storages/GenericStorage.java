@@ -51,12 +51,12 @@ public abstract class GenericStorage<V> implements StorageObject<DataInputStream
         for(StorageObject generic : generics) {
             output.writeUTF(generic.getClass().getName());
         }
-        writeGeneric(output, generics);
+        writeGeneric(output);
     }
     
     public abstract int generics();
     
     public abstract void readGeneric(DataInputStream input, StorageObject... generic) throws IOException;
     
-    public abstract void writeGeneric(DataOutputStream output, StorageObject... generic) throws IOException;
+    public abstract void writeGeneric(DataOutputStream output) throws IOException;
 }

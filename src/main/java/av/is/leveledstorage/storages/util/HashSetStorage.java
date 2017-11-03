@@ -28,7 +28,7 @@ public class HashSetStorage<T extends StorageObject> extends SetStorage<T, HashS
     }
     
     @Override
-    public void writeGeneric(DataOutputStream output, StorageObject... generic) throws IOException {
+    public void writeGeneric(DataOutputStream output) throws IOException {
         output.write(getValue().size());
         for(T obj : getValue()) {
             obj.write(output);

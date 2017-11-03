@@ -26,5 +26,5 @@
 
 ******
 
-# 데이터  개요도
+# 데이터 이동 개요도
 ![Transition](/TransitionPreview.png "Transition Preview")

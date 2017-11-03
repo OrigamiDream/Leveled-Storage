@@ -30,7 +30,7 @@ public class ArrayListStorage<T extends StorageObject> extends ListStorage<T, Ar
     }
     
     @Override
-    public void writeGeneric(DataOutputStream output, StorageObject... generic) throws IOException {
+    public void writeGeneric(DataOutputStream output) throws IOException {
         output.write(getValue().size());
         for(int i = 0; i < getValue().size(); i++) {
             T obj = getValue().get(i);
