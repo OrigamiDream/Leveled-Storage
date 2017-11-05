@@ -31,6 +31,7 @@
         <module>core</module>
         <module>java</module>
         <module>guava</module>
+        <module>bukkit</module>
     </modules>
 
 

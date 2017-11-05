@@ -11,9 +11,9 @@ import java.util.Map;
 /**
  * Created by Avis Network on 2017-11-04.
  */
-public class HashMapStorage<K extends StorageObject, V extends StorageObject> extends MapStorage<K, V, HashMap<K, V>> {
+public class HashMapStorage<K extends StorageObject, V extends StorageObject> extends MapStorage<K, V, Map<K, V>> {
     
-    public HashMapStorage(HashMap<K, V> map) {
+    public HashMapStorage(Map<K, V> map) {
         super(map);
     }
     

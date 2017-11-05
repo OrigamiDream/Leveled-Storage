@@ -6,13 +6,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Avis Network on 2017-11-04.
  */
-public class ArrayListStorage<T extends StorageObject> extends ListStorage<T, ArrayList<T>> {
+public class ArrayListStorage<T extends StorageObject> extends ListStorage<T, List<T>> {
     
-    public ArrayListStorage(ArrayList<T> collection) {
+    public ArrayListStorage(List<T> collection) {
         super(collection);
     }
     

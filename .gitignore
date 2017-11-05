@@ -3,8 +3,7 @@ core.iml
 java.iml
 guava.iml
 
-.idea/*
-.target/*
+.idea/
 
 target/classes/
 target/generated-sources/
