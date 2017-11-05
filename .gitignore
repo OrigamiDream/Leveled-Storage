@@ -2,6 +2,7 @@
 core.iml
 java.iml
 guava.iml
+bukkit.iml
 
 .idea/
 
