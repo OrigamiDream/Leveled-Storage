@@ -1,4 +1,4 @@
-package av.is.leveledstorage.storages.util;
+package av.is.leveledstorage.storages.java;
 
 import av.is.leveledstorage.StorageObject;
 import av.is.leveledstorage.storages.GenericStorage;

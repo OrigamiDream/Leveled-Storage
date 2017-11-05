@@ -1,8 +1,10 @@
 
-Leveled Storage.iml
+core.iml
+java.iml
+guava.iml
+
 .idea/*
 .target/*
-src/main/resources/
 
 target/classes/
 target/generated-sources/
