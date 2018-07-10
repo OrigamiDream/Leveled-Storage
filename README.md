@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/origamidream/leveled-storage/badge)](https://www.codefactor.io/repository/github/origamidream/leveled-storage)
+
 # Leveled Storage
  
 >레이어별로 데이터를 나눔으로서 좀더 효율적이고, 안정적인 <br/>
