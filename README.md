@@ -14,7 +14,7 @@
 ******
 
 # 사용법
-이 라이브러리의 기본적인 사용법은 [**이곳**](https://github.com/OrigamiDream/Leveled-Storage/blob/master/src/main/java/av/is/leveledstorage/example/ExampleStorage.java)에서 보실 수 있습니다.<br/>
+이 라이브러리의 기본적인 사용법은 [**이곳**](https://github.com/OrigamiDream/Leveled-Storage/blob/master/core/src/main/java/av/is/leveledstorage/example/ExampleStorage.java)에서 보실 수 있습니다.<br/>
 가장 중요하게 사용되는 메소드들을 포함한 주요 내용만을 담았으며,<br/>
 이외의 메소드와 필드의 사용은 **비권장**합니다.
 
